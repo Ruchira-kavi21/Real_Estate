@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PropertyController;
-use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\SubscribeController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ProfileController;
 
