@@ -6,6 +6,8 @@ use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\SubscribeController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -21,7 +23,12 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::get('/register', [RegisteredUserController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisteredUserController::class, 'store']);
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/lands', [PropertyController::class, 'land'])->name('lands');
 Route::get('/rent', [PropertyController::class, 'rent'])->name('rent');
