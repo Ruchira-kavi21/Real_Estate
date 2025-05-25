@@ -3,42 +3,54 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
     public function showLoginForm()
     {
+        if (Auth::check()) {
+            if (Auth::user()->isAdmin()) {
+                return redirect()->route('admin');
+            } elseif (Auth::user()->isCustomer()) {
+                return redirect()->route('profile');
+            } elseif (Auth::user()->isSeller()) {
+                return redirect()->route('sell');
+            }
+        }
         return view('auth.login');
     }
 
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
         ]);
 
-        $email = $request->input('email');
-        $password = $request->input('password');
-
-        $user = User::where('email', $email)->first();
-
-        if ($user && Hash::check($password, $user->password)) {
-            Session::put('user_id', $user->id);
-            Session::put('user_email', $email);
-            Session::put('logged_in', true);
-            Session::put('role', $user->role); 
-
-            if ($user->role === 'admin') {
-                return redirect()->intended('/adminHome');
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            if (Auth::user()->isAdmin()) {
+                return redirect()->route('admin');
+            } elseif (Auth::user()->isCustomer()) {
+                return redirect()->route('profile');
+            } elseif (Auth::user()->isSeller()) {
+                return redirect()->route('sell');
             }
-            return redirect()->intended('/home');
+            return redirect()->route('home');
         }
 
-        return back()->withErrors(['email' => 'Invalid email or password.']);
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/login');
     }
 }

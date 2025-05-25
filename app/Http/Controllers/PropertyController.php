@@ -7,13 +7,25 @@ use App\Models\Property;
 
 class PropertyController extends Controller
 {
-    //
-    public function land()
+    public function home()
     {
         $lands = Property::where('property_type', 'land')
             ->where('property_status', 'approved')
             ->get();
-        return view('land', compact('lands'));
+
+        $houses = Property::where('property_type', 'house')
+            ->where('property_status', 'approved')
+            ->get();
+
+        return view('home', compact('lands', 'houses'));
+    }
+
+    public function land()
+    {
+        $properties = Property::where('offer_type', 'sale')
+            ->where('property_status', 'approved')
+            ->get();
+        return view('land', compact('properties'));
     }
 
     public function rent()
@@ -24,15 +36,7 @@ class PropertyController extends Controller
         return view('rent', compact('properties'));
     }
 
-    public function sell()
-    {
-        $properties = Property::where('offer_type', 'sale')
-            ->where('property_status', 'approved')
-            ->get();
-        return view('sell', compact('properties'));
-    }
-
-    public function create()
+    public function showSellForm()
     {
         return view('sell.create');
     }
@@ -52,8 +56,16 @@ class PropertyController extends Controller
             'image_2' => 'nullable|image|max:2048',
         ]);
 
-        $property = new Property($validated);
+        $property = new Property();
         $property->user_id = auth()->id();
+        $property->property_name = $request->input('property_name');
+        $property->property_price = $request->input('property_price');
+        $property->offer_type = $request->input('offer_type');
+        $property->property_type = $request->input('property_type');
+        $property->finish_status = $request->input('finish_status');
+        $property->property_address = $request->input('property_address');
+        $property->property_description = $request->input('property_description');
+        $property->phone_number = $request->input('phone_number');
         $property->property_status = 'pending';
 
         if ($request->hasFile('image_1')) {
@@ -66,5 +78,10 @@ class PropertyController extends Controller
         $property->save();
 
         return redirect()->route('sell')->with('success', 'Property submitted for approval.');
+    }
+    public function viewProperty($id)
+    {
+        $property = Property::findOrFail($id);
+        return view('view', compact('property'));
     }
 }

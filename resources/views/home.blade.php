@@ -5,7 +5,7 @@
 @section('content')
     <section class="text-center py-10 mt-20">
         <div class="container mx-auto">
-            <h1 class="text-4xl font-bold text-gray-800 " >Find Your Perfect Space Today</h1>
+            <h1 class="text-4xl font-bold text-gray-800">Find Your Perfect Space Today</h1>
             <p class="text-lg text-gray-600 mt-4">Let us help you make informed decisions about your next home.</p>
             <button class="mt-10 bg-teal-600 text-white py-3 px-6 rounded-lg hover:bg-teal-700">Search Now</button>
             <div class="mt-2">
@@ -13,7 +13,7 @@
             </div>
         </div>
     </section>
-
+    
     <section class="py-16">
         <div class="container mx-auto text-center">
             <h2 class="text-6xl font-bold text-gray-800">Our Services</h2>
@@ -78,13 +78,12 @@
                     </div>
                 @empty
                     <p class="text-center text-gray-500">No houses available.</p>
-                @endempty
+                @endforelse
             </div>
             <button class="mt-6 bg-teal-600 text-white py-3 px-6 rounded-lg hover:bg-teal-700">View All</button>
         </div>
     </section>
 
-    
     @include('layouts.subscribe')
     @include('layouts.footer')
 @endsection

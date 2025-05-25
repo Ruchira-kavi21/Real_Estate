@@ -11,10 +11,10 @@
         <!-- Navigation Links (Desktop) -->
         <div class="hidden md:flex items-center space-x-6">
             <a href="{{ route('home') }}" class="text-lg text-gray-700 hover:text-teal-600">Home</a>
-            <a href="{{ route('lands') }}" class="text-lg text-gray-700 hover:text-teal-600">Lands</a>
+            <a href="{{ route('land') }}" class="text-lg text-gray-700 hover:text-teal-600">Lands</a>
             <a href="{{ route('rent') }}" class="text-lg text-gray-700 hover:text-teal-600">Rent</a>
-            <a href="{{ route('sell.index') }}" class="text-lg text-gray-700 hover:text-teal-600">Sell</a>
-            <a href="{{ route('about') }}" class="text-lg text-gray-700 hover:text-teal-600">About Us</a>
+            <a href="{{ route('sell') }}" class="text-lg text-gray-700 hover:text-teal-600">Sell</a>
+            <a href="{{ route('aboutus') }}" class="text-lg text-gray-700 hover:text-teal-600">About Us</a>
         </div>
 
         <!-- Auth Links (Desktop) -->
@@ -48,10 +48,10 @@
         <div class="container mx-auto px-6 py-4">
             <div class="flex flex-col space-y-4">
                 <a href="{{ route('home') }}" class="text-lg text-gray-700 hover:text-teal-600">Home</a>
-                <a href="{{ route('lands') }}" class="text-lg text-gray-700 hover:text-teal-600">Lands</a>
+                <a href="{{ route('land') }}" class="text-lg text-gray-700 hover:text-teal-600">Lands</a>
                 <a href="{{ route('rent') }}" class="text-lg text-gray-700 hover:text-teal-600">Rent</a>
-                <a href="{{ route('sell.index') }}" class="text-lg text-gray-700 hover:text-teal-600">Sell</a>
-                <a href="{{ route('about') }}" class="text-lg text-gray-700 hover:text-teal-600">About Us</a>
+                <a href="{{ route('sell') }}" class="text-lg text-gray-700 hover:text-teal-600">Sell</a>
+                <a href="{{ route('aboutus') }}" class="text-lg text-gray-700 hover:text-teal-600">About Us</a>
                 @auth
                     <div class="flex flex-col space-y-2">
                         <span class="text-gray-700">Welcome, {{ Auth::user()->name }}</span>

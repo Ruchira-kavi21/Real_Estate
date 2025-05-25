@@ -6,11 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class RegisteredUserController extends Controller
 {
     public function showRegistrationForm()
     {
+        if (Session::has('logged_in') && Session::get('logged_in')) {
+            $role = Session::get('role');
+            if ($role === 'admin') {
+                return redirect()->route('adminHome');
+            } elseif ($role === 'seller') {
+                return redirect()->route('sellerHome'); // Define this route later if needed
+            }
+            return redirect()->route('index');
+        }
         return view('auth.register');
     }
 
