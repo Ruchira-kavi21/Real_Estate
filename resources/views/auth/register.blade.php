@@ -78,19 +78,13 @@
                 <input type="password" name="password_confirmation" placeholder="Confirm Your password" class="w-full pl-4 outline-none" required>
             </div>
             <!-- Role -->
-            <div class="flex items-center border border-gray-300 rounded-lg p-2">
-                <span class="text-gray-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                    </svg>
-                </span>
-                <select name="role" class="w-full pl-4 outline-none" required>
-                    <option value="">Select Role</option>
-                    <option value="customer" {{ old('role') === 'customer' ? 'selected' : '' }}>Customer</option>
-                    <option value="seller" {{ old('role') === 'seller' ? 'selected' : '' }}>Seller</option>
-                    <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Admin</option>
-                </select>
-            </div>
+            <div class="mt-4">
+    <x-label for="role" value="{{ __('Role') }}" />
+    <select id="role" name="role" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm" required>
+        <option value="customer" {{ old('role') === 'customer' ? 'selected' : '' }}>Customer</option>
+        <option value="seller" {{ old('role') === 'seller' ? 'selected' : '' }}>Seller</option>
+    </select>
+</div>
             <!-- Submit Button -->
             <div class="flex justify-center">
                 <button type="submit" class="w-1/3 bg-teal-600 text-white py-2 rounded-lg hover:bg-teal-700">Sign Up</button>

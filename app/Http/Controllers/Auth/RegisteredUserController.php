@@ -17,9 +17,9 @@ class RegisteredUserController extends Controller
             if ($role === 'admin') {
                 return redirect()->route('adminHome');
             } elseif ($role === 'seller') {
-                return redirect()->route('sellerHome'); // Define this route later if needed
+                return redirect()->route('sellerHome'); 
             }
-            return redirect()->route('index');
+            return redirect()->route('home');
         }
         return view('auth.register');
     }

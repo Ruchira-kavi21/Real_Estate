@@ -43,7 +43,21 @@
             </div>
         </div>
     </header>
-
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6 mt-5">
+            <div class="bg-gray-100 rounded-lg shadow-md p-6">
+                <h4 class="text-lg font-semibold mb-2">Total Parts</h4>
+                <p class="text-3xl font-bold">{{ $totalProperties }}</p>
+            </div>
+            <div class="bg-gray-100 rounded-lg shadow-md p-6">
+                <h4 class="text-lg font-semibold mb-2">Total Sellers</h4>
+                <p class="text-3xl font-bold">{{ $totalSellers }}</p>
+            </div>
+            <div class="bg-gray-100 rounded-lg shadow-md p-6">
+                <h4 class="text-lg font-semibold mb-2">Total Customers</h4>
+                <p class="text-3xl font-bold">{{ $totalCustomers }}</p>
+            </div>
+           
+        </div>
     <div class="container mx-auto py-8">
         <h1 class="text-3xl font-bold text-gray-800 mb-6">Admin Dashboard - Approve or Decline Properties</h1>
 

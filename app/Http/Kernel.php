@@ -23,6 +23,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\RedirectBasedOnRole::class,
         ],
 
         'api' => [
@@ -42,7 +43,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        // 'auth.custom' => \App\Http\Middleware\AuthenticateCustom::class,
-        'role' => \App\Http\Middleware\Role::class,
+        'role' => \App\Http\Middleware\RoleMiddleware::class,
+        'redirect.role' => \App\Http\Middleware\RedirectBasedOnRole::class,
     ];
 }
