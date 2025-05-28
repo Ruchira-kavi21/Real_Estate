@@ -43,30 +43,36 @@
             </div>
         </div>
     </header>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6 mt-5">
-            <div class="bg-gray-100 rounded-lg shadow-md p-6">
-                <h4 class="text-lg font-semibold mb-2">Total Parts</h4>
-                <p class="text-3xl font-bold">{{ $totalProperties }}</p>
-            </div>
-            <div class="bg-gray-100 rounded-lg shadow-md p-6">
-                <h4 class="text-lg font-semibold mb-2">Total Sellers</h4>
-                <p class="text-3xl font-bold">{{ $totalSellers }}</p>
-            </div>
-            <div class="bg-gray-100 rounded-lg shadow-md p-6">
-                <h4 class="text-lg font-semibold mb-2">Total Customers</h4>
-                <p class="text-3xl font-bold">{{ $totalCustomers }}</p>
-            </div>
-           
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 mt-5 p-6 ">
+        <div class="bg-gray-100 rounded-lg shadow-md p-6">
+            <h4 class="text-lg font-semibold mb-2">Total Properties </h4>
+            <p class="text-3xl font-bold">{{ $totalProperties }}</p>
         </div>
+        <div class="bg-gray-100 rounded-lg shadow-md p-6">
+            <h4 class="text-lg font-semibold mb-2">Total Sellers</h4>
+            <p class="text-3xl font-bold">{{ $totalSellers }}</p>
+        </div>
+        <div class="bg-gray-100 rounded-lg shadow-md p-6">
+            <h4 class="text-lg font-semibold mb-2">Total Customers</h4>
+            <p class="text-3xl font-bold">{{ $totalCustomers }}</p>
+        </div>
+        
+    </div>
     <div class="container mx-auto py-8">
         <h1 class="text-3xl font-bold text-gray-800 mb-6">Admin Dashboard - Approve or Decline Properties</h1>
-
         <!-- Pending Properties -->
         @if ($pendingProperties->isNotEmpty())
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach ($pendingProperties as $property)
                     <div class="bg-white border rounded-lg shadow-lg overflow-hidden">
-                        <img src="{{ asset('storage/' . $property->image_1) }}" alt="Property Image" class="w-full h-48 object-cover">
+                        <!-- conditional check and fallback for image -->
+                        @if ($property->image_1 && file_exists(storage_path('app/public/' . $property->image_1)))
+                            <img src="{{ asset('storage/' . $property->image_1) }}" alt="Property Image" class="w-full h-48 object-cover">
+                        @else
+                            <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+                                <p class="text-gray-500">No Image Available</p>
+                            </div>
+                        @endif
                         <div class="p-4">
                             <h2 class="text-lg font-bold text-gray-800">{{ $property->property_name }}</h2>
                             <p class="text-gray-600">{{ $property->property_address }}</p>
@@ -88,29 +94,35 @@
         @else
             <p class="text-center text-gray-500">No new properties awaiting approval.</p>
         @endif
-
-        <!-- Approved Properties (Current List) -->
-        @if ($properties->isNotEmpty())
-            <div class="mt-8">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4">Approved Properties</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    @foreach ($properties as $property)
-                        <div class="bg-white border rounded-lg shadow-lg overflow-hidden">
-                            <img src="{{ asset('storage/' . $property->image_1) }}" alt="Property Image" class="w-full h-48 object-cover">
-                            <div class="p-4">
-                                <h2 class="text-lg font-bold text-gray-800">{{ $property->property_name }}</h2>
-                                <p class="text-gray-600">{{ $property->property_address }}</p>
-                                <p class="text-teal-600 font-bold">{{ number_format($property->property_price, 2) }} Million</p>
-                            </div>
-                        </div>
-                    @endforeach
+    </div>
+    <!-- Approved Properties (Current List) -->
+    @if ($properties->isNotEmpty())
+    <div class="mt-8 ml-44 mb-10">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Approved Properties</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach ($properties as $property)
+            <div class="bg-white border rounded-lg shadow-lg overflow-hidden">
+                <!-- Changed: Added conditional check and fallback for image -->
+                @if ($property->image_1 && file_exists(storage_path('app/public/' . $property->image_1)))
+                <img src="{{ asset('storage/' . $property->image_1) }}" alt="Property Image" class="w-full h-48 object-cover">
+                @else
+                <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+                    <p class="text-gray-500">No Image Available</p>
+                </div>
+                @endif
+                <div class="p-4">
+                    <h2 class="text-lg font-bold text-gray-800">{{ $property->property_name }}</h2>
+                    <p class="text-gray-600">{{ $property->property_address }}</p>
+                    <p class="text-teal-600 font-bold">{{ number_format($property->property_price, 2) }} Million</p>
                 </div>
             </div>
+            @endforeach
+        </div>
         @else
-            <p class="text-center text-gray-500 mt-8">No approved properties.</p>
+        <p class="text-center text-gray-500 mt-8">No approved properties.</p>
         @endif
     </div>
 
-    
+    @include('layouts.footer')
 </body>
 </html>

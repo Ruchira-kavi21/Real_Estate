@@ -13,7 +13,6 @@
                     <li><a href="{{ route('home') }}" class="hover:text-teal-400">Home</a></li>
                     <li><a href="{{ route('land') }}" class="hover:text-teal-400">Lands</a></li>
                     <li><a href="{{ route('rent') }}" class="hover:text-teal-400">Rent</a></li>
-                    <li><a href="{{ route('sell') }}" class="hover:text-teal-400">Sell</a></li>
                     <li><a href="{{ route('aboutus') }}" class="hover:text-teal-400">About Us</a></li>
                     <li><a href="#" class="hover:text-teal-400">Terms & Conditions</a></li>
                     <li><a href="#" class="hover:text-teal-400">Privacy Policy</a></li>

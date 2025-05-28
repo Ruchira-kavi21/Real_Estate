@@ -8,14 +8,36 @@ use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         DB::table('users')->insert([
-            ['name' => 'ruchira', 'email' => 'user@havenhomes.com', 'password' => Hash::make('password'), 'is_admin' => false, 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Admin', 'email' => 'admin@havenhomes.com', 'password' => Hash::make('password'), 'is_admin' => true, 'created_at' => now(), 'updated_at' => now()],
+            [
+                'name' => 'Admin',
+                'email' => 'admin@havenhomes.com',
+                'password' => Hash::make('password'),
+                'role' => 'admin',
+                'email_verified_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Customer',
+                'email' => 'customer@havenhomes.com',
+                'password' => Hash::make('password'),
+                'role' => 'customer',
+                'email_verified_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Seller',
+                'email' => 'seller@havenhomes.com',
+                'password' => Hash::make('password'),
+                'role' => 'seller',
+                'email_verified_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }

@@ -6,11 +6,11 @@ use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\AdminController;
 use App\Models\Property;
 use Illuminate\Support\Facades\Route;
-
+use App\Models\User;
 // Public Routes
 Route::get('/', function () {
     return redirect()->route('home');
-})->name('root');
+});
 
 Route::get('/home', [PropertyController::class, 'home'])->name('home');
 Route::get('/land', [PropertyController::class, 'land'])->name('land');
@@ -19,33 +19,117 @@ Route::get('/aboutus', function () {
     return view('aboutus');
 })->name('aboutus');
 
-// Customer Routes (Authenticated Customers Only)
-Route::middleware(['auth', 'role:customer', 'redirect.role'])->group(function () {
-    Route::get('/profile', function () {
-        return view('profile');
-    })->name('profile');
-});
+// // Customer Routes (Authenticated Customers Only)
+// Route::middleware(['auth', 'role:customer'])->group(function () {
+//     Route::get('/profile', function () {
+//         return view('profile');
+//     })->name('profile');
+// });
 
-// Seller Routes (Authenticated Sellers Only)
-Route::middleware(['auth', 'role:seller', 'redirect.role'])->group(function () {
-    Route::get('/sell', [PropertyController::class, 'showSellForm'])->name('sell');
-    Route::post('/sell', [PropertyController::class, 'store'])->name('sell.store');
-});
+// // Seller Routes (Authenticated Sellers Only)
+// Route::middleware(['auth', 'role:seller'])->group(function () {
+//     Route::get('/sell', [PropertyController::class, 'showSellForm'])->name('sell');
+//     Route::post('/sell', [PropertyController::class, 'store'])->name('sell.store');
+// });
 
-Route::middleware(['auth', 'role:admin', 'redirect.role'])->group(function () {
+// Route::middleware(['auth', 'role:admin', 'redirect.role'])->group(function () {
+//     Route::get('/Admin/dashboard', [AdminController::class, 'dashboard'])->name('admin');
+//     Route::post('/admin/approve/{id}', [AdminController::class, 'approveProperty'])->name('admin.approve');
+//     Route::post('/admin/decline/{id}', [AdminController::class, 'declineProperty'])->name('admin.decline');
+//     Route::post('/admin/create', [AdminController::class, 'createAdmin'])->name('admin.create');
+//     Route::post('/admin/edit-user/{id}', [AdminController::class, 'editUser'])->name('admin.edit-user');
+//     Route::post('/admin/delete-user/{id}', [AdminController::class, 'deleteUser'])->name('admin.delete-user');
+//     Route::get('/admin/users', [AdminController::class, 'showUsers'])->name('admin.users');
+//     Route::get('/admin/add-property', [AdminController::class, 'showAddPropertyForm'])->name('admin.add-property');
+//     Route::post('/admin/add-property', [AdminController::class, 'addProperty'])->name('admin.add-property.store');
+//     Route::get('/admin/edit-property/{id}', [AdminController::class, 'editPropertyView'])->name('admin.edit-property');
+//     Route::post('/admin/edit-property/{id}', [AdminController::class, 'editProperty'])->name('admin.edit-property.store');
+//     Route::post('/admin/delete-property/{id}', [AdminController::class, 'deleteProperty'])->name('admin.delete-property');
+//     Route::get('/admin/list', [AdminController::class, 'listProperties'])->name('admin.list');
+//     Route::get('/admin/view/{id}', [AdminController::class, 'viewProperty'])->name('admin.view');
+//     Route::get('/admin/export-report', [AdminController::class, 'exportPropertyReport'])->name('admin.export-report');
+// });
+
+// Route::middleware(['auth', 'role:admin'])->group(function () {
+//     Route::get('/Admin/dashboard', [AdminController::class, 'dashboard'])->name('admin');
+//     Route::post('/admin/approve/{id}', [AdminController::class, 'approveProperty'])->name('admin.approve');
+//     Route::post('/admin/decline/{id}', [AdminController::class, 'declineProperty'])->name('admin.decline');
+//     Route::post('/admin/create', [AdminController::class, 'createAdmin'])->name('admin.create');
+//     Route::post('/admin/edit-user/{id}', [AdminController::class, 'editUser'])->name('admin.edit-user');
+//     Route::post('/admin/delete-user/{id}', [AdminController::class, 'deleteUser'])->name('admin.delete-user');
+//     Route::get('/admin/users', [AdminController::class, 'showUsers'])->name('admin.users');
+//     Route::get('/admin/add-property', [AdminController::class, 'showAddPropertyForm'])->name('admin.add-property');
+//     Route::post('/admin/add-property', [AdminController::class, 'addProperty'])->name('admin.add-property.store');
+//     Route::get('/admin/edit-property/{id}', [AdminController::class, 'editPropertyView'])->name('admin.edit-property');
+//     Route::post('/admin/edit-property/{id}', [AdminController::class, 'editProperty'])->name('admin.edit-property.store');
+//     Route::post('/admin/delete-property/{id}', [AdminController::class, 'deleteProperty'])->name('admin.delete-property');
+//     Route::get('/admin/list', [AdminController::class, 'listProperties'])->name('admin.list');
+//     Route::get('/admin/view/{id}', [AdminController::class, 'viewProperty'])->name('admin.view');
+//     Route::get('/admin/export-report', [AdminController::class, 'exportPropertyReport'])->name('admin.export-report');
+// });
+
+// Route::middleware(['auth', 'role:customer'])->group(function () {
+//     Route::get('/profile', function () {
+//         return view('profile');
+//     })->name('profile');
+// });
+
+// // Seller Routes
+// Route::middleware(['auth', 'role:seller'])->group(function () {
+//     Route::get('/sell', [PropertyController::class, 'showSellForm'])->name('sell');
+//     Route::post('/sell', [PropertyController::class, 'store'])->name('sell.store');
+// });
+
+// Route::get('/test-query', function () {
+//     return User::whereIn('email', ['admin@example.com', 'customer@example.com'])
+//         ->get(['email', 'role']);
+// });
+
+
+// Route::middleware(['auth', 'redirect.role'])->group(function () {
+//     Route::middleware('role:admin')->group(function () {
+//         Route::get('/Admin/dashboard', [AdminController::class, 'dashboard'])->name('admin');
+//         Route::post('/admin/approve/{id}', [AdminController::class, 'approveProperty'])->name('admin.approve');
+//         Route::post('/admin/decline/{id}', [AdminController::class, 'declineProperty'])->name('admin.decline');
+//         Route::post('/admin/create', [AdminController::class, 'createAdmin'])->name('admin.create');
+//         Route::post('/admin/edit-user/{id}', [AdminController::class, 'editUser'])->name('admin.edit-user');
+//         Route::post('/admin/delete-user/{id}', [AdminController::class, 'deleteUser'])->name('admin.delete-user');
+//         Route::get('/admin/users', [AdminController::class, 'showUsers'])->name('admin.users');
+//         Route::get('/admin/add-property', [AdminController::class, 'showAddPropertyForm'])->name('admin.add-property');
+//         Route::post('/admin/add-property', [AdminController::class, 'addProperty'])->name('admin.add-property.store');
+//         Route::get('/admin/edit-property/{id}', [AdminController::class, 'editPropertyView'])->name('admin.edit-property');
+//         Route::post('/admin/edit-property/{id}', [AdminController::class, 'editProperty'])->name('admin.edit-property.store');
+//         Route::post('/admin/delete-property/{id}', [AdminController::class, 'deleteProperty'])->name('admin.delete-property');
+//         Route::get('/admin/list', [AdminController::class, 'listProperties'])->name('admin.list');
+//         Route::get('/admin/view/{id}', [AdminController::class, 'viewProperty'])->name('admin.view');
+//         Route::get('/admin/export-report', [AdminController::class, 'exportPropertyReport'])->name('admin.export-report');
+//         // ... other admin routes ...
+//     });
+
+//     Route::middleware('role:customer')->group(function () {
+//         Route::get('/profile', function () {
+//             return view('profile');
+//         })->name('profile');
+//     });
+
+//     Route::middleware('role:seller')->group(function () {
+//         Route::get('/sell', [PropertyController::class, 'showSellForm'])->name('sell');
+//         Route::post('/sell', [PropertyController::class, 'store'])->name('sell.store');
+//     });
+// });
+
     Route::get('/Admin/dashboard', [AdminController::class, 'dashboard'])->name('admin');
-    Route::post('/admin/approve/{id}', [AdminController::class, 'approveProperty'])->name('admin.approve');
-    Route::post('/admin/decline/{id}', [AdminController::class, 'declineProperty'])->name('admin.decline');
-    Route::post('/admin/create', [AdminController::class, 'createAdmin'])->name('admin.create');
-    Route::post('/admin/edit-user/{id}', [AdminController::class, 'editUser'])->name('admin.edit-user');
-    Route::post('/admin/delete-user/{id}', [AdminController::class, 'deleteUser'])->name('admin.delete-user');
-    Route::get('/admin/users', [AdminController::class, 'showUsers'])->name('admin.users');
-    Route::get('/admin/add-property', [AdminController::class, 'showAddPropertyForm'])->name('admin.add-property');
-    Route::post('/admin/add-property', [AdminController::class, 'addProperty'])->name('admin.add-property.store');
-    Route::get('/admin/edit-property/{id}', [AdminController::class, 'editPropertyView'])->name('admin.edit-property');
-    Route::post('/admin/edit-property/{id}', [AdminController::class, 'editProperty'])->name('admin.edit-property.store');
-    Route::post('/admin/delete-property/{id}', [AdminController::class, 'deleteProperty'])->name('admin.delete-property');
-    Route::get('/admin/list', [AdminController::class, 'listProperties'])->name('admin.list');
-    Route::get('/admin/view/{id}', [AdminController::class, 'viewProperty'])->name('admin.view');
-    Route::get('/admin/export-report', [AdminController::class, 'exportPropertyReport'])->name('admin.export-report');
-});
+        Route::post('/admin/approve/{id}', [AdminController::class, 'approveProperty'])->name('admin.approve');
+        Route::post('/admin/decline/{id}', [AdminController::class, 'declineProperty'])->name('admin.decline');
+        Route::post('/admin/edit-user/{id}', [AdminController::class, 'editUser'])->name('admin.edit-user');
+        Route::post('/admin/delete-user/{id}', [AdminController::class, 'deleteUser'])->name('admin.delete-user');
+        Route::get('/admin/users', [AdminController::class, 'showUsers'])->name('admin.users');
+        Route::get('/admin/add-property', [AdminController::class, 'showAddPropertyForm'])->name('admin.add-property');
+        Route::post('/admin/add-property', [AdminController::class, 'addProperty'])->name('admin.add-property.store');
+        Route::get('/admin/edit-property/{id}', [AdminController::class, 'editPropertyView'])->name('admin.edit-property');
+        Route::post('/admin/edit-property/{id}', [AdminController::class, 'editProperty'])->name('admin.edit-property.store');
+        Route::post('/admin/delete-property/{id}', [AdminController::class, 'deleteProperty'])->name('admin.delete-property');
+        Route::get('/admin/list', [AdminController::class, 'listProperties'])->name('admin.list');
+        Route::get('/admin/view/{id}', [AdminController::class, 'viewProperty'])->name('admin.view');
+        Route::get('/admin/export-report', [AdminController::class, 'exportPropertyReport'])->name('admin.export-report');
+        Route::post('/admin/create', [AdminController::class, 'createUser'])->name('admin.create');

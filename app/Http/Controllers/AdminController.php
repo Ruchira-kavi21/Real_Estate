@@ -12,16 +12,12 @@ class AdminController extends Controller
 {
     public function dashboard(Request $request)
     {
-        // Total counts
         $totalProperties = Property::count();
-        // $totalAdmins = User::where('role', 'admin')->count();
         $totalSellers = User::where('role', 'seller')->count();
         $totalCustomers = User::where('role', 'customer')->count();
-        
 
-        // Fetch data for display
+
         $sellers = User::where('role', 'seller')->get();
-        // $admins = User::where('role', 'admin')->get();
         $customers = User::where('role', 'customer')->get();
         $properties = Property::with('user')
             ->where('property_status', 'approved')
@@ -30,7 +26,6 @@ class AdminController extends Controller
             ->where('property_status', 'pending')
             ->get();
 
-        // Date range filter
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
 
@@ -38,7 +33,7 @@ class AdminController extends Controller
             $properties = Property::whereBetween('created_at', [$startDate, $endDate])
                 ->with('user')
                 ->get();
-            }
+        }
 
         return view('Admin.dashboard', compact(
             'totalProperties',
@@ -52,8 +47,6 @@ class AdminController extends Controller
             'endDate'
         ));
     }
-
-    
 
     public function approveProperty($id)
     {
@@ -73,22 +66,23 @@ class AdminController extends Controller
         return redirect()->route('admin')->with('success', 'Property declined successfully.');
     }
 
-    public function createAdmin(Request $request)
+    public function createUser(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
+            'role' => 'required|in:admin,seller,customer', 
         ]);
 
-        $admin = new User();
-        $admin->name = $request->input('name');
-        $admin->email = $request->input('email');
-        $admin->password = bcrypt($request->input('password'));
-        $admin->role = 'admin';
-        $admin->save();
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = bcrypt($request->input('password'));
+        $user->role = $request->input('role'); 
+        $user->save();
 
-        return redirect()->route('admin')->with('success', 'Admin created successfully.');
+        return redirect()->route('admin')->with('success', 'User created successfully.');
     }
 
     public function editUser(Request $request, $id)
@@ -117,7 +111,6 @@ class AdminController extends Controller
     {
         $user = User::findOrFail($id);
 
-        // Prevent deleting the last admin
         if ($user->role === 'admin' && User::where('role', 'admin')->count() <= 1) {
             return redirect()->route('admin')->with('error', 'Cannot delete the last admin user.');
         }
@@ -126,114 +119,44 @@ class AdminController extends Controller
 
         return redirect()->route('admin')->with('success', 'User deleted successfully.');
     }
+
     public function showUsers()
     {
+        // $sellers = User::where('role', 'seller')->get();
+        // $users = User::whereIn('role', ['admin', 'seller'])->get();
+        // return view('admin.users', compact('sellers', 'users'));
+        $admins = User::where('role', 'admin')->get();
         $sellers = User::where('role', 'seller')->get();
-        $users = User::whereIn('role', ['admin', 'seller'])->get();
-        return view('admin.users', compact('sellers', 'users'));
+        $customers = User::where('role', 'customer')->get();
+        return view('admin.users', compact('admins', 'sellers', 'customers'));
     }
+
     public function showAddPropertyForm()
     {
         return view('admin.add-property');
     }
+
     public function listProperties()
     {
         $properties = Property::all();
         return view('admin.list', compact('properties'));
     }
+
     public function viewProperty($id)
     {
         $property = Property::findOrFail($id);
         return view('view', compact('property'));
     }
 
-    public function addProperty(Request $request)
-    {
-        $request->validate([
-            'property_name' => 'required|string|max:255',
-            'property_price' => 'required|numeric|min:0',
-            'offer_type' => 'required|in:sale,rent',
-            'property_type' => 'required|in:apartment,house,land',
-            'finish_status' => 'required|in:finished,unfinished',
-            'property_address' => 'required|string',
-            'property_description' => 'required|string',
-            'phone_number' => 'required|string|max:20',
-            'image_1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'image_2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        $property = new Property();
-        $property->user_id = auth()->check() ? auth()->id() : 1; // Fallback to a default user_id if not authenticated
-        $property->property_name = $request->input('property_name');
-        $property->property_price = $request->input('property_price');
-        $property->offer_type = $request->input('offer_type');
-        $property->property_type = $request->input('property_type');
-        $property->finish_status = $request->input('finish_status');
-        $property->property_address = $request->input('property_address');
-        $property->property_description = $request->input('property_description');
-        $property->phone_number = $request->input('phone_number');
-        $property->property_status = 'pending';
-
-        if ($request->hasFile('image_1')) {
-            $property->image_1 = $request->file('image_1')->store('properties', 'public');
-        }
-        if ($request->hasFile('image_2')) {
-            $property->image_2 = $request->file('image_2')->store('properties', 'public');
-        }
-
-        $property->save();
-
-        return redirect()->route('admin.add-property')->with('success', 'Property submitted successfully.');
-    }
     public function editPropertyView($id)
     {
         $property = Property::findOrFail($id);
         return view('admin.edit', compact('property'));
     }
+
     public function editProperty(Request $request, $id)
     {
-        $property = Property::findOrFail($id);
-
-        $request->validate([
-            'property_name' => 'required|string|max:255',
-            'user_id' => 'required|exists:users,id',
-            'property_price' => 'required|numeric|min:0',
-            'offer_type' => 'required|in:sale,rent',
-            'property_type' => 'required|in:apartment,house,land',
-            'finish_status' => 'required|in:finished,unfinished',
-            'property_address' => 'required|string',
-            'property_description' => 'required|string',
-            'phone_number' => 'required|string|max:20',
-            'image_1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'image_2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        $property->user_id = $request->input('user_id');
-        $property->property_name = $request->input('property_name');
-        $property->property_price = $request->input('property_price');
-        $property->offer_type = $request->input('offer_type');
-        $property->property_type = $request->input('property_type');
-        $property->finish_status = $request->input('finish_status');
-        $property->property_address = $request->input('property_address');
-        $property->property_description = $request->input('property_description');
-        $property->phone_number = $request->input('phone_number');
-
-        if ($request->hasFile('image_1')) {
-            if ($property->image_1) {
-                Storage::disk('public')->delete($property->image_1);
-            }
-            $property->image_1 = $request->file('image_1')->store('properties', 'public');
-        }
-        if ($request->hasFile('image_2')) {
-            if ($property->image_2) {
-                Storage::disk('public')->delete($property->image_2);
-            }
-            $property->image_2 = $request->file('image_2')->store('properties', 'public');
-        }
-
-        $property->save();
-
-        return redirect()->route('admin.list')->with('success', 'Property updated successfully.');
+        return view('admin.edit', ['propertyId' => $id]);
     }
 
     public function deleteProperty($id)

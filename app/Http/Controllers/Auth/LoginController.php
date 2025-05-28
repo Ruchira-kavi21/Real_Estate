@@ -34,7 +34,7 @@ class LoginController extends Controller
             if (Auth::user()->isAdmin()) {
                 return redirect()->route('admin');
             } elseif (Auth::user()->isCustomer()) {
-                return redirect()->route('home');
+                return redirect()->route('customer');
             } elseif (Auth::user()->isSeller()) {
                 return redirect()->route('sell');
             }
