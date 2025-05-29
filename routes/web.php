@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SellerController;
+use App\Http\Controllers\CustomerController;
 use App\Models\Property;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -64,9 +65,11 @@ Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('adm
     Route::get('/admin/list', [AdminController::class, 'listProperties'])->name('admin.list');
     Route::get('/admin/view/{id}', [AdminController::class, 'viewProperty'])->name('admin.view');
     Route::get('/admin/export-report', [AdminController::class, 'exportPropertyReport'])->name('admin.export-report');
-Route::get('/profile', function () {
-        return view('profile');
-})->name('profile');
+
+Route::get('/profile', [CustomerController::class, 'profile'])->name('profile');
+Route::post('/customer/profile', [CustomerController::class, 'updateProfile'])->name('customer.profile.update');
+Route::get('/customer/property/{id}/edit', [CustomerController::class, 'editProperty'])->name('customer.property.edit');
+Route::post('/customer/property/{id}', [CustomerController::class, 'updateProperty'])->name('customer.property.update');
 
 Route::get('/sell', [PropertyController::class, 'showSellForm'])->name('sell');
 Route::post('/sell', [PropertyController::class, 'store'])->name('sell.store');
