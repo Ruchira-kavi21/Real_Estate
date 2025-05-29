@@ -10,13 +10,8 @@ class Role
 {
     public function handle(Request $request, Closure $next, $role)
     {
-        if (!Auth::check()) {
-            return redirect('/login')->with('error', 'Please log in to access this page.');
-        }
-
-        $user = Auth::user();
-        if ($user->role !== $role) {
-            return redirect('/login')->with('error', 'You do not have the required role to access this page.');
+        if (!Auth::check() || Auth::user()->role !== $role) {
+            return redirect('/login')->withErrors(['role' => 'You do not have the required role.']);
         }
 
         return $next($request);

@@ -1,5 +1,5 @@
 <header class="bg-white" style="position:sticky; top:0; z-index:100;">
-    <nav class="container mx-auto flex items-center justify-between py-4 px-6 " ">
+    <nav class="container mx-auto flex items-center justify-between py-4 px-6">
         <!-- Logo -->
         <div class="flex items-center">
             <a href="{{ route('home') }}" class="flex items-center space-x-2">
@@ -21,6 +21,14 @@
         <div class="hidden md:flex items-center space-x-4">
             @auth
                 <span class="text-gray-700">Welcome, {{ Auth::user()->name }}</span>
+                <!-- Role-based button -->
+                @if (Auth::user()->role === 'customer')
+                    <a href="{{ route('profile') }}" class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700">Manage Profile</a>
+                @elseif (Auth::user()->role === 'seller')
+                    <a href="{{ route('seller.dashboard') }}" class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700">Seller Dashboard</a>
+                @elseif (Auth::user()->role === 'admin')
+                    <a href="{{ route('admin') }}" class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700">Admin Dashboard</a>
+                @endif
                 <form action="{{ route('logout') }}" method="POST" class="inline">
                     @csrf
                     <button type="submit" class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700">Logout</button>
@@ -55,6 +63,14 @@
                 @auth
                     <div class="flex flex-col space-y-2">
                         <span class="text-gray-700">Welcome, {{ Auth::user()->name }}</span>
+                        <!-- Role-based button for mobile -->
+                        @if (Auth::user()->role === 'customer')
+                            <a href="{{ route('profile') }}" class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 text-center">Manage Profile</a>
+                        @elseif (Auth::user()->role === 'seller')
+                            <a href="{{ route('seller.dashboard') }}" class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 text-center">Seller Dashboard</a>
+                        @elseif (Auth::user()->role === 'admin')
+                            <a href="{{ route('admin') }}" class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 text-center">Admin Dashboard</a>
+                        @endif
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <button type="submit" class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 w-full text-left">Logout</button>
