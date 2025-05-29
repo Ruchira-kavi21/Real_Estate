@@ -32,9 +32,11 @@
                             <p class="text-gray-600">Address: {{ $property->property_address }}</p>
                             <p class="text-gray-600">📞 {{ $property->phone_number }}</p>
                         </div>
+                        @if (Auth::check() && Auth::user()->role === 'customer')
                         <div class="flex justify-between mt-4">
                             <a href="{{ route('user.view', $property->id) }}" class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-800">View Details</a>
                         </div>
+                        @endif
                     </div>
                 @endforeach
             </div>

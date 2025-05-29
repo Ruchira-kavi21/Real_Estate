@@ -1,44 +1,40 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 class LoginController extends Controller
 {
     public function showLoginForm()
     {
-        if (Auth::check()) {
-            if (Auth::user()->isAdmin()) {
-                return redirect()->route('admin');
-            } elseif (Auth::user()->isCustomer()) {
-                return redirect()->route('home');
-            } elseif (Auth::user()->isSeller()) {
-                return redirect()->route('sell');
-            }
-        }
         return view('auth.login');
     }
 
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            if (Auth::user()->isAdmin()) {
-                return redirect()->route('admin');
-            } elseif (Auth::user()->isCustomer()) {
-                return redirect()->route('customer');
-            } elseif (Auth::user()->isSeller()) {
-                return redirect()->route('sell');
+
+            $user = Auth::user();
+
+            if ($request->has('redirect')) {
+                return redirect()->to($request->input('redirect'));
             }
-            return redirect()->route('home');
+
+            if ($user->role === 'seller') {
+                return redirect()->route('seller.dashboard');
+            } elseif ($user->role === 'admin') {
+                return redirect()->route('admin');
+            } else {
+                return redirect()->route('home');
+            }
         }
 
         return back()->withErrors([
@@ -51,6 +47,6 @@ class LoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/login');
+        return redirect('/login')->with('success', 'You have been logged out.');
     }
 }
