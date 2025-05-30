@@ -41,6 +41,10 @@
                         <span class="text-red-600">{{ $message }}</span>
                     @enderror
                 </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="role">Role</label>
+                    <input type="text" id="role" value="{{ $user->role }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 bg-gray-100" readonly>
+                </div>
                 <div class="mt-6">
                     <h3 class="text-xl font-bold text-gray-700 mb-4">Change Password</h3>
                     <div class="mb-4">
