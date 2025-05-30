@@ -4,22 +4,21 @@
 
 @section('content')
     <!-- Why Choose Us Section -->
-    <div class="bg-white py-10 px-6 max-w-6xl mx-auto mt-8 rounded-lg">
-        <div class="flex items-center bg-white py-10 px-6 max-w-6xl mx-auto mt-8 rounded-lg">
-            <div class="w-[1500px] h-[300px] -ml-72 flex justify-center">
-                <img src="{{ asset('Images/about.png') }}" alt="House Illustration" class="w-5/6 h-auto">
+    <section class="bg-white py-10 px-6 max-w-6xl mx-auto mt-8 rounded-lg">
+        <div class="flex flex-col lg:flex-row items-center">
+            <div class="w-full lg:w-[1500px] lg:-ml-72 flex justify-center">
+                <img src="{{ asset('Images/about.png') }}" alt="House Illustration" class="w-full lg:w-5/6 h-auto max-w-md lg:max-w-none">
             </div>
-            <div class="w-5/6 pl-6">
-                <h2 class="text-2xl font-bold text-gray-800 -mt-10">Why Choose Us</h2>
-                <p class="mt-4 text-gray-600 text-lg">
+            <div class="w-full lg:w-5/6 lg:pl-6">
+                <h2 class="text-2xl lg:text-2xl font-bold text-gray-800 lg:-mt-10">Why Choose Us</h2>
+                <p class="mt-4 text-gray-600 text-base lg:text-lg">
                     At Haven Homes, we prioritize your needs, offering trusted services to buy, rent, or sell properties seamlessly.
                     With a proven track record, personalized support, and transparent processes, we ensure your property journey is smooth and rewarding.
                     Discover the difference with us today.
                 </p>
             </div>
         </div>
-    </div>
-
+    </section>
     <!-- Focus on Property Search and Buying -->
     <div class="bg-white py-10 px-6 max-w-6xl mx-auto mt-8 rounded-lg">
         <h2 class="text-2xl font-bold text-gray-800 text-center mb-6">Keep the Focus on Property Search and Buying</h2>
