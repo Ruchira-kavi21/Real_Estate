@@ -58,7 +58,11 @@
                 <a href="{{ route('home') }}" class="text-lg text-gray-700 hover:text-teal-600">Home</a>
                 <a href="{{ route('land') }}" class="text-lg text-gray-700 hover:text-teal-600">Lands</a>
                 <a href="{{ route('rent') }}" class="text-lg text-gray-700 hover:text-teal-600">Rent</a>
-                <a href="{{ route('sell') }}" class="text-lg text-gray-700 hover:text-teal-600">Sell</a>
+                @auth
+                @if (Auth::user()->role === 'seller')
+                    <a href="{{ route('sell') }}" class="text-lg text-gray-700 hover:text-teal-600">Sell</a>
+                @endif
+            @endauth
                 <a href="{{ route('aboutus') }}" class="text-lg text-gray-700 hover:text-teal-600">About Us</a>
                 @auth
                     <div class="flex flex-col space-y-2">
