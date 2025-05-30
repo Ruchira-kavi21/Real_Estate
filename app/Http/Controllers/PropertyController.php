@@ -38,7 +38,7 @@ class PropertyController extends Controller
 
     public function showSellForm()
     {
-        return view('sell.create');
+        return view('seller.sell');
     }
 
     public function store(Request $request)
