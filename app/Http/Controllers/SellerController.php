@@ -70,4 +70,29 @@ class SellerController extends Controller
 
         return redirect()->route('seller.dashboard')->with('success', 'Property added successfully!');
     }
+    public function updateProfile(Request $request)
+    {
+        $user = User::findOrFail(Auth::id());
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'phone' => 'nullable|string|max:15',
+            'current_password' => 'nullable|required_with:password,password_confirmation',
+            'password' => 'nullable|min:8|confirmed',
+        ]);
+
+        $data = $request->only(['name', 'email', 'phone']);
+        $user->update($data);
+
+        if ($request->filled('current_password')) {
+            if (!Hash::check($request->current_password, $user->password)) {
+                return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect.']);
+            }
+            $user->update(['password' => Hash::make($request->password)]);
+            return redirect()->route('seller.dashboard')->with('success', 'Profile and password updated successfully!');
+        }
+
+        return redirect()->route('seller.dashboard')->with('success', 'Profile updated successfully!');
+    }
 }

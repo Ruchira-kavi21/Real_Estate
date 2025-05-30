@@ -79,3 +79,4 @@ Route::post('/sell', [PropertyController::class, 'store'])->name('sell.store');
 // });
 Route::get('/seller/dashboard', [SellerController::class, 'dashboard'])->name('seller.dashboard');
 Route::post('/seller/property', [SellerController::class, 'storeProperty'])->name('seller.property.store');
+Route::post('/seller/profile', [SellerController::class, 'updateProfile'])->name('seller.profile.update');
