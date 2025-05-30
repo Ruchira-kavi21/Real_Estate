@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Property;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
 {
@@ -18,7 +19,7 @@ class CustomerController extends Controller
 
     public function updateProfile(Request $request)
     {
-        $user = Auth::user();
+        $user = User::findOrFail(Auth::id()); // Use Eloquent model instance
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -31,15 +32,15 @@ class CustomerController extends Controller
         $data = $request->only(['name', 'email', 'phone']);
         $user->update($data);
 
-        // Handle password change
+        // Handle password change 
         if ($request->filled('current_password')) {
             if (!Hash::check($request->current_password, $user->password)) {
                 return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect.']);
             }
             $user->update(['password' => Hash::make($request->password)]);
-            return redirect()->route('customer.profile')->with('success', 'Profile and password updated successfully!');
+            return redirect()->route('profile')->with('success', 'Profile and password updated successfully!');
         }
 
-        return redirect()->route('customer.profile')->with('success', 'Profile updated successfully!');
+        return redirect()->route('profile')->with('success', 'Profile updated successfully!');
     }
 }
