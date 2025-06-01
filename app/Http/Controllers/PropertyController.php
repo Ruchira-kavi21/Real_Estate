@@ -7,6 +7,21 @@ use App\Models\Property;
 
 class PropertyController extends Controller
 {
+    public function index(Request $request)
+    {
+        $query = Property::query();
+        
+        // Filter by offer_type if provided (e.g., ?offer_type=land or ?offer_type=rent)
+        if ($request->has('offer_type')) {
+            $query->where('offer_type', $request->offer_type);
+        }
+
+        // Only return approved properties
+        $query->where('property_status', 'approved');
+        
+        $properties = $query->get();
+        return response()->json(['data' => $properties], 200);
+    }
     public function home()
     {
         $lands = Property::where('property_type', 'land')
