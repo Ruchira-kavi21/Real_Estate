@@ -14,22 +14,7 @@
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <!-- <header class="nav-bar-section bg-white shadow">
-        <div class="container mx-auto flex items-center justify-between py-4 px-6">
-            <a href="{{ route('home') }}" class="flex items-center space-x-2">
-                <img src="{{ asset('Images/logo.png') }}" alt="Haven Homes Logo" class="w-20 h-15 mr-2">
-                <span class="text-2xl font-bold text-teal-600">Haven Homes</span>
-            </a>
-            <nav class="flex space-x-6">
-                <a href="{{ route('admin') }}" class="text-lg text-gray-700 hover:text-teal-600">Admin Dashboard</a>
-                <a href="{{ route('admin.add-property') }}" class="text-lg text-gray-700 hover:text-teal-600">Add</a>
-                <a href="{{ route('admin.users') }}" class="text-lg text-gray-700 hover:text-teal-600">Users</a>
-                <a href="{{ route('admin.list') }}" class="text-lg text-gray-700 hover:text-teal-600">List</a>
-            </nav>
-            <a href="{{ route('login') }}" class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700">Log In</a>
-        </div>
-    </header> -->
+   
 
     <div class="container mx-auto py-8">
         <h1 class="text-3xl font-bold text-gray-800 mb-6">{{ $property->property_name }}</h1>
@@ -79,7 +64,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     
 </body>
 </html>

@@ -19,7 +19,7 @@ class CustomerController extends Controller
 
     public function updateProfile(Request $request)
     {
-        $user = User::findOrFail(Auth::id()); // Use Eloquent model instance
+        $user = User::findOrFail(Auth::id()); 
 
         $request->validate([
             'name' => 'required|string|max:255',

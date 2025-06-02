@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 
 uses([
-    WithFileUploads::class, // Added to enable file uploads
+    WithFileUploads::class,
 ]);
 
 state([

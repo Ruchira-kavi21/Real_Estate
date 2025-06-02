@@ -11,12 +11,10 @@ class PropertyController extends Controller
     {
         $query = Property::query();
         
-        // Filter by offer_type if provided (e.g., ?offer_type=land or ?offer_type=rent)
         if ($request->has('offer_type')) {
             $query->where('offer_type', $request->offer_type);
         }
 
-        // Only return approved properties
         $query->where('property_status', 'approved');
         
         $properties = $query->get();

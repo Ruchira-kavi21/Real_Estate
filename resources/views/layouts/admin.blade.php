@@ -22,7 +22,7 @@
                 <span class="text-2xl font-bold text-teal-600">Haven Homes</span>
             </a>
             <nav class="flex space-x-6">
-                <a href="{{ route('admin') }}" class="text-lg text-gray-700 hover:text-teal-600">Admin Dashboard</a>
+                <a href="{{ route('admin.dashboard') }}" class="text-lg text-gray-700 hover:text-teal-600">Admin Dashboard</a>
                 <a href="{{ route('admin.add-property') }}" class="text-lg text-gray-700 hover:text-teal-600">Add</a>
                 <a href="{{ route('admin.users') }}" class="text-lg text-gray-700 hover:text-teal-600">Users</a>
                 <a href="{{ route('admin.list') }}" class="text-lg text-gray-700 hover:text-teal-600">List</a>

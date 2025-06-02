@@ -55,7 +55,7 @@ class AdminController extends Controller
         $property->property_status = 'approved';
         $property->save();
 
-        return redirect()->route('admin')->with('success', 'Property approved successfully.');
+        return redirect()->route('admin.dashboard')->with('success', 'Property approved successfully.');
     }
 
     public function declineProperty($id)
@@ -64,7 +64,7 @@ class AdminController extends Controller
         $property->property_status = 'declined';
         $property->save();
 
-        return redirect()->route('admin')->with('success', 'Property declined successfully.');
+        return redirect()->route('admin.dashboard')->with('success', 'Property declined successfully.');
     }
 
     public function createUser(Request $request)
@@ -83,7 +83,7 @@ class AdminController extends Controller
         $user->role = $request->input('role'); 
         $user->save();
 
-        return redirect()->route('admin')->with('success', 'User created successfully.');
+        return redirect()->route('admin.dashboard')->with('success', 'User created successfully.');
     }
 
     public function editUser(Request $request, $id)
@@ -105,7 +105,7 @@ class AdminController extends Controller
         }
         $user->save();
 
-        return redirect()->route('admin')->with('success', 'User updated successfully.');
+        return redirect()->route('admin.dashboard')->with('success', 'User updated successfully.');
     }
 
     public function deleteUser($id)
@@ -113,12 +113,12 @@ class AdminController extends Controller
         $user = User::findOrFail($id);
 
         if ($user->role === 'admin' && User::where('role', 'admin')->count() <= 1) {
-            return redirect()->route('admin')->with('error', 'Cannot delete the last admin user.');
+            return redirect()->route('admin.dashboard')->with('error', 'Cannot delete the last admin user.');
         }
 
         $user->delete();
 
-        return redirect()->route('admin')->with('success', 'User deleted successfully.');
+        return redirect()->route('admin.dashboard')->with('success', 'User deleted successfully.');
     }
 
     public function showUsers()
@@ -173,6 +173,6 @@ class AdminController extends Controller
 
         $property->delete();
 
-        return redirect()->route('admin')->with('success', 'Property deleted successfully.');
+        return redirect()->route('admin.dashboard')->with('success', 'Property deleted successfully.');
     }
 }

@@ -79,12 +79,12 @@
             </div>
             <!-- Role -->
             <div class="mt-4">
-    <x-label for="role" value="{{ __('Role') }}" />
-    <select id="role" name="role" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm" required>
-        <option value="customer" {{ old('role') === 'customer' ? 'selected' : '' }}>Customer</option>
-        <option value="seller" {{ old('role') === 'seller' ? 'selected' : '' }}>Seller</option>
-    </select>
-</div>
+                <x-label for="role" value="{{ __('Role') }}" />
+                <select id="role" name="role" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm" required>
+                    <option value="customer" {{ old('role') === 'customer' ? 'selected' : '' }}>Customer</option>
+                    <option value="seller" {{ old('role') === 'seller' ? 'selected' : '' }}>Seller</option>
+                </select>
+            </div>
             <!-- Submit Button -->
             <div class="flex justify-center">
                 <button type="submit" class="w-1/3 bg-teal-600 text-white py-2 rounded-lg hover:bg-teal-700">Sign Up</button>

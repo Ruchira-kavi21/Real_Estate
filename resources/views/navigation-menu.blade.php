@@ -27,7 +27,7 @@
                 @elseif (Auth::user()->role === 'seller')
                     <a href="{{ route('seller.dashboard') }}" class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700">Seller Dashboard</a>
                 @elseif (Auth::user()->role === 'admin')
-                    <a href="{{ route('admin') }}" class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700">Admin Dashboard</a>
+                    <a href="{{ route('admin.dashboard') }}" class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700">Admin Dashboard</a>
                 @endif
                 <form action="{{ route('logout') }}" method="POST" class="inline">
                     @csrf
@@ -73,7 +73,7 @@
                         @elseif (Auth::user()->role === 'seller')
                             <a href="{{ route('seller.dashboard') }}" class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 text-center">Seller Dashboard</a>
                         @elseif (Auth::user()->role === 'admin')
-                            <a href="{{ route('admin') }}" class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 text-center">Admin Dashboard</a>
+                            <a href="{{ route('admin.dashboard') }}" class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 text-center">Admin Dashboard</a>
                         @endif
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf

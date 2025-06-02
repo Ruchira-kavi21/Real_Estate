@@ -15,9 +15,9 @@ class RegisteredUserController extends Controller
         if (Session::has('logged_in') && Session::get('logged_in')) {
             $role = Session::get('role');
             if ($role === 'admin') {
-                return redirect()->route('adminHome');
+                return redirect()->route('admin.dashboard');
             } elseif ($role === 'seller') {
-                return redirect()->route('sellerHome'); 
+                return redirect()->route('seller.dashboard'); 
             }
             return redirect()->route('home');
         }

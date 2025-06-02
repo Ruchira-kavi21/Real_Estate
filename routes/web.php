@@ -33,8 +33,8 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::get('/user/view/{id}', [PropertyController::class, 'viewProperty'])->name('user.view');
 
 
-// Route::middleware('admin')->group(function () {
-//     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin');
+// Route::middleware(['admin'])->group(function () {
+//     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 //     Route::post('/admin/approve/{id}', [AdminController::class, 'approveProperty'])->name('admin.approve');
 //     Route::post('/admin/decline/{id}', [AdminController::class, 'declineProperty'])->name('admin.decline');
 //     Route::post('/admin/create', [AdminController::class, 'createUser'])->name('admin.create');
@@ -50,7 +50,7 @@ Route::get('/user/view/{id}', [PropertyController::class, 'viewProperty'])->name
 //     Route::get('/admin/view/{id}', [AdminController::class, 'viewProperty'])->name('admin.view');
 //     Route::get('/admin/export-report', [AdminController::class, 'exportPropertyReport'])->name('admin.export-report');
 // });
-Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin');
+Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::post('/admin/approve/{id}', [AdminController::class, 'approveProperty'])->name('admin.approve');
     Route::post('/admin/decline/{id}', [AdminController::class, 'declineProperty'])->name('admin.decline');
     Route::post('/admin/create', [AdminController::class, 'createUser'])->name('admin.create');
@@ -80,3 +80,8 @@ Route::post('/sell', [PropertyController::class, 'store'])->name('sell.store');
 Route::get('/seller/dashboard', [SellerController::class, 'dashboard'])->name('seller.dashboard');
 Route::post('/seller/property', [SellerController::class, 'storeProperty'])->name('seller.property.store');
 Route::post('/seller/profile', [SellerController::class, 'updateProfile'])->name('seller.profile.update');
+
+
+Route::get('/test-admin', function () {
+    return 'Welcome, admin!';
+})->middleware(\App\Http\Middleware\AdminAuth::class);
